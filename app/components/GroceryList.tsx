@@ -23,14 +23,14 @@ export function GroceryList({ id, name }: GroceryListProps) {
   }, [id]);
 
   const fetchItems = async () => {
-    const response = await fetch(`http://localhost:4000/grocery-lists/${id}/items`);
+    const response = await fetch(`${process.env.BACKEND_URL}/grocery-lists/${id}/items`);
     const data = await response.json();
     setItems(data);
   };
 
   const addItem = async (e: React.FormEvent) => {
     e.preventDefault();
-    await fetch(`http://localhost:4000/grocery-lists/${id}/items`, {
+    await fetch(`${process.env.BACKEND_URL}/grocery-lists/${id}/items`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name: newItemName, quantity: newItemQuantity }),
@@ -42,14 +42,14 @@ export function GroceryList({ id, name }: GroceryListProps) {
 
   const togglePurchased = async (itemId: number, currentPurchaseState: boolean) => {
     const endpoint = currentPurchaseState ? 'unpurchase' : 'purchase';
-    await fetch(`http://localhost:4000/grocery-lists/${id}/items/${itemId}/${endpoint}`, {
+    await fetch(`${process.env.BACKEND_URL}/grocery-lists/${id}/items/${itemId}/${endpoint}`, {
       method: "PUT",
     });
     fetchItems();
   };
 
   const deleteItem = async (itemId: number) => {
-    await fetch(`http://localhost:4000/grocery-lists/${id}/items/${itemId}`, {
+    await fetch(`${process.env.BACKEND_URL}/grocery-lists/${id}/items/${itemId}`, {
       method: "DELETE",
     });
     fetchItems();
